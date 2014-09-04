@@ -25,3 +25,15 @@ Description: Header files for FYBA library
  This is the development package for developing applications that depends on
  libfyba. It includes header files, static library files and HTML
  documentation.
+
+Package: libfyba0-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: libfyba0 (= ${binary:Version}), ${misc:Depends}
+Description: debug symbols for libfyba0
+ OpenFYBA is the source code release of the FYBA library, distributed by the 
+ National Mapping Authority of Norway (Statens kartverk) to read and write 
+ files in the National geodata standard format SOSI.
+ .
+ This package contains the debugging symbols for the shared library.
