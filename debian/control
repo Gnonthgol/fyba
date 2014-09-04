@@ -9,7 +9,7 @@ Vcs-Git: git://github.com/rubund/fyba.git -b debian
 Vcs-Browser: https://github.com/rubund/fyba/tree/debian
 Homepage: https://github.com/kartverket/fyba
 
-Package: libfyba1
+Package: libfyba0
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: FYBA library to read and write norwegian geodata standard format SOSI
