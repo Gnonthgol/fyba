@@ -23,4 +23,5 @@ Architecture: any
 Depends: libfyba0 (= ${binary:Version}), ${misc:Depends}
 Description: Header files for FYBA library
  This is the development package for developing applications that depends on
- libfyba.
+ libfyba. It includes header files, static library files and HTML
+ documentation.
