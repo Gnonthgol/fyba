@@ -1,0 +1,355 @@
+Index: fyba/src/FYBA/FYLB.cpp
+===================================================================
+--- fyba.orig/src/FYBA/FYLB.cpp
++++ fyba/src/FYBA/FYLB.cpp
+@@ -3280,7 +3280,8 @@ short LB_RGru(LC_FILADM *pFil,UT_INT64 s
+          UT_SNPRINTF(err().tx,LC_ERR_LEN," \"%s %s\"",LN_GetNavn(&(pAktFil->SosiNavn),
+                                  pLb->cur_navn[pLb->cur_niv-1]),pLb->pp);
+          LC_Error(47,"(LB_RGru)",err().tx);
+-         exit (2);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return 0;
+       }  
+       
+       siste = 0;
+@@ -4275,7 +4276,8 @@ void LB_FyllBuffer (FILE *fil,LB_LESEBUF
+       } else {
+          LC_Error(43,"(LB_FyllBuffer)","");   /* Annen lesefeil */
+       }
+-      exit(1);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    /* Konverter til rett tegnsett */
+@@ -4286,7 +4288,8 @@ void LB_FyllBuffer (FILE *fil,LB_LESEBUF
+       char szMelding[LC_MAX_SOSI_LINJE_LEN + 10];
+       UT_SNPRINTF(szMelding, LC_MAX_SOSI_LINJE_LEN + 10, "\"%s\"", plb->tx);
+       LC_Error(164,"(LB_FyllBuffer)",szMelding);
+-      exit(1);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    /* Nullstill pekere */
+Index: fyba/src/FYBA/FYLI.cpp
+===================================================================
+--- fyba.orig/src/FYBA/FYLI.cpp
++++ fyba/src/FYBA/FYLI.cpp
+@@ -151,7 +151,8 @@ short LI_OpenInit(LC_FILADM *pFil)
+    if (fil[strlen(fil)-1] == ' ')
+    {
+       LC_Error(120,"(LI_OpenInit)",pFil->pszNavn);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    // Opprett katalogen
+@@ -173,7 +174,8 @@ short LI_OpenInit(LC_FILADM *pFil)
+ 
+    if (fwrite(pFil,sizeof(*pFil),1,pF) != 1) {
+       LC_Error(112,"(LI_OpenInit)","");
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    fclose(pF);
+@@ -260,7 +262,8 @@ short LI_OpenRead(LC_FILADM *pFil)
+       if (fread(pGrt,sizeof(*pGrt),1,pF) != 1) { /* Les */
+          UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %ld",pFil->pszNavn,linje);
+          LC_Error(111,"(LI_OpenRead): ",err().tx);
+-         exit(99);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return 0;
+       }
+    }
+    fclose(pF);
+@@ -275,7 +278,8 @@ short LI_OpenRead(LC_FILADM *pFil)
+    if (! feof(pF)) {
+       UT_SNPRINTF(err().tx,LC_ERR_LEN," %ld",lSnr);
+       LC_Error(111,"(LI_OpenRead): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+    fclose(pF);
+ 
+@@ -286,7 +290,8 @@ short LI_OpenRead(LC_FILADM *pFil)
+       if (fread(&bt,sizeof(bt),1,pF) != 1) {   /* Les */
+          UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %ld",pFil->pszNavn,linje);
+          LC_Error(111,"(LI_OpenRead): ",err().tx);
+-         exit(99);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return 0;
+       }
+       LI_PutBt(pFil,linje,bt);
+    }
+@@ -298,7 +303,8 @@ short LI_OpenRead(LC_FILADM *pFil)
+       if (fread(&Boks,sizeof(Boks),1,pF) != 1) { /* Les */
+          UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %ld",pFil->pszNavn,linje);
+          LC_Error(111,"(LI_OpenRead): ",err().tx);
+-         exit(99);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return 0;
+       }
+ 
+       if (Boks.dMaxAust != (double)LONG_MAX) {
+@@ -440,7 +446,8 @@ void LI_Close(LC_FILADM *pFil,short s_st
+       for (lGrNr=0; lGrNr<pFil->lAntGr; lGrNr++) {
+ 			if (fwrite(LI_GetGrt(pFil,lGrNr),sizeof (LC_GRTAB_LINJE),1,pF) != 1) {
+             LC_Error(112,"(LI_Close)","");
+-            exit(99);
++            fprintf(stderr,"Error: The library used to stop the program execution here\n");
++            return;
+          }
+       }
+       fclose(pF);
+@@ -451,7 +458,8 @@ void LI_Close(LC_FILADM *pFil,short s_st
+          flag = LI_GetBt(pFil,lGrNr);
+          if (fwrite(&flag,sizeof flag,1,pF) != 1) {
+ 				LC_Error(112,"(LI_Close)","");
+-            exit(99);
++            fprintf(stderr,"Error: The library used to stop the program execution here\n");
++            return;
+          }
+       }
+       fclose(pF);
+@@ -462,7 +470,8 @@ void LI_Close(LC_FILADM *pFil,short s_st
+          lGrNr = LI_GetSnr(pFil,lSnr);
+          if (fwrite(&lGrNr,sizeof lGrNr,1,pF) != 1) {
+             LC_Error(112,"(LI_Close)","");
+-				exit(99);
++				fprintf(stderr,"Error: The library used to stop the program execution here\n");
++				return;
+          }
+       }
+       fclose(pF);
+@@ -476,13 +485,15 @@ void LI_Close(LC_FILADM *pFil,short s_st
+             Boks.dMaxAust = (double)LONG_MAX;
+             if (fwrite(&Boks,sizeof (LC_BOKS),1,pF) != 1) {
+                LC_Error(112,"(LI_Close)","");
+-               exit(99);
++               fprintf(stderr,"Error: The library used to stop the program execution here\n");
++               return;
+             }
+ 
+          } else {
+             if (fwrite(&(pRL->Boks),sizeof (LC_BOKS),1,pF) != 1) {
+                LC_Error(112,"(LI_Close)","");
+-               exit(99);
++               fprintf(stderr,"Error: The library used to stop the program execution here\n");
++               return;
+             }
+          }
+ 		}
+@@ -557,7 +568,8 @@ static FILE *LI_OpenIdxFil(LC_FILADM *pF
+       UT_strerror(szError,256,ierr);
+       UT_SNPRINTF(err().tx,LC_ERR_LEN," %s - %s",fil,szError);
+       LC_Error(6,"(LI_OpenIdxFil)",err().tx);
+-      exit(2);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    /* Posisjoner hvis nødvendig */
+@@ -804,12 +816,14 @@ void LI_PutSnr(LC_FILADM *pFil,long lSnr
+          } else {
+ 				UT_SNPRINTF(err().tx,LC_ERR_LEN,"%ld",lSnr);
+             LC_Error(61,"(LI_PutSnr): ",err().tx);
+-            exit(99);
++            fprintf(stderr,"Error: The library used to stop the program execution here\n");
++            return;
+          }
+ 
+       } else {
+          LC_Error(75,"(LI_PutSnr): ","");
+-         exit(99);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return;
+       }
+    }
+ }
+@@ -849,7 +863,8 @@ LC_GRTAB_LINJE * LI_GetGrt(LC_FILADM *pF
+ 
+    UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %ld",pFil->pszNavn,linje);
+    LC_Error(111,"(LI_GetGrt): ",err().tx);
+-   exit(99);
++   fprintf(stderr,"Error: The library used to stop the program execution here\n");
++   return 0;
+ 
+    return  NULL;
+ }
+@@ -891,7 +906,8 @@ LC_GRTAB_LINJE * LI_AppGrt(LC_FILADM *pF
+ 
+    } else {
+       LC_Error(75,"(LI_PutGrt): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    return  NULL;
+@@ -932,7 +948,8 @@ unsigned long LI_GetBt(LC_FILADM *pFil,l
+ 
+    UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %ld",pFil->pszNavn,linje);
+    LC_Error(111,"(LI_GetBt): ",err().tx);
+-   exit(99);
++   fprintf(stderr,"Error: The library used to stop the program execution here\n");
++   return 0;
+ 
+    return  0L;
+ }
+@@ -976,7 +993,8 @@ void LI_PutBt(LC_FILADM *pFil,long linje
+ 
+    } else {
+       LC_Error(75,"(LI_PutBt): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ }
+ 
+@@ -1398,7 +1416,8 @@ void LI_SaveAdm(LC_FILADM *pFil)
+    pFil->ulPid = 0;
+    if (fwrite(pFil,sizeof(*pFil),1,pF) != 1) {
+       LC_Error(112,"(LI_SaveAdm)","");
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    fclose(pF);
+@@ -1547,7 +1566,8 @@ static short LI_ReadAdm(LC_FILADM *pFil)
+    if (fwrite(pFil,sizeof(*pFil),1,pF) != 1) 
+    {
+       LC_Error(112,"(LI_ReadAdm)","");
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    // Stenger filen
+@@ -1631,7 +1651,8 @@ void LI_WriteRb(LC_FILADM *pFil, UT_INT6
+    if (sSkrivefeil == UT_TRUE) {
+       UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %lld",pFil->pszNavn,n64FilPos);
+       LC_Error(74,"(LI_WriteRb): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    pFil->pBase->n64FilPosRb = _ftelli64(pF);
+@@ -1727,7 +1748,8 @@ void LI_ReadRb(LC_FILADM *pFil, UT_INT64
+       UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %lld",pFil->pszNavn,n64FilPos);
+ 
+       LC_Error(73,"(LI_ReadRb): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    pFil->pBase->n64FilPosRb = _ftelli64(pF);
+@@ -1799,7 +1821,8 @@ void LI_ReadCoordRb(LC_FILADM *pFil, UT_
+    if (sLesefeil == UT_TRUE) {
+       UT_SNPRINTF(err().tx,LC_ERR_LEN," %s : %lld",pFil->pszNavn,n64FilPos);
+       LC_Error(73,"(LI_ReadCoordRb): ",err().tx);
+-      exit(99);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return;
+    }
+ 
+    pFil->pBase->n64FilPosRb = _ftelli64(pF);
+Index: fyba/src/FYBA/FYLO.cpp
+===================================================================
+--- fyba.orig/src/FYBA/FYLO.cpp
++++ fyba/src/FYBA/FYLO.cpp
+@@ -757,11 +757,13 @@ SK_EntPnt_FYBA LC_BASEADM * LC_OpenBase(
+ 	 */
+ 	if (fyba_initiert != 1){
+ 		LC_Error(4,"(LC_OpenBase)","");
+-		exit(2);
++		fprintf(stderr,"Error: The library used to stop the program execution here\n");
++		return 0;
+ 	}
+ 	if (sBaseType != LC_BASE  &&  sBaseType != LC_KLADD) {
+ 		LC_Error(1,"(LC_OpenBase)","");
+-		exit(2);
++		fprintf(stderr,"Error: The library used to stop the program execution here\n");
++		return 0;
+ 	}
+ 
+ 	/*
+@@ -1149,17 +1151,20 @@ SK_EntPnt_FYBA short LC_OpenSos(const ch
+     */
+    if (fyba_initiert != 1) {
+       LC_Error(4,"(LC_OpenSos)","");
+-      exit(2);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+    if (Sys.pForsteBase == NULL) {
+ 		LC_Error(5,"(LC_OpenSos)","");
+-      exit(2);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }
+ 
+    if (Sys.pAktBase->sType == LC_KLADD) {
+       if (sModus == LC_BASE_FRAMGR  || sModus == LC_BASE_BAKGR) {
+    		LC_Error(106,"(LC_OpenSos)",fil);
+-         exit(2);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return 0;
+       }
+    }
+ 
+@@ -1471,7 +1476,8 @@ void LO_ReopenSos(LC_FILADM *pFil)
+       /* Åpningsfeil */
+       if (ostat != UT_OK) {
+          LC_Error(6,"(LO_ReopenSos)",pFil->pszNavn);
+-         exit(2);
++         fprintf(stderr,"Error: The library used to stop the program execution here\n");
++         return;
+       }
+ 
+       /* Husk current filnummer */
+@@ -1982,7 +1988,8 @@ static short LO_InklSos(LC_FILADM *pFil,
+          } else {                     /* For mange grupper, tab. sprengt */
+             UT_SNPRINTF(err().tx,LC_ERR_LEN," %ld",pFil->lAntGr+1L);
+             LC_Error(2,"(LO_InklSos)",err().tx);
+-            exit(99);
++            fprintf(stderr,"Error: The library used to stop the program execution here\n");
++            return 0;
+          }
+ 
+          avbrutt = LC_Cancel();     /* <ESC> avbryter lesing */
+Index: fyba/src/FYBA/Fyba_Callback.cpp
+===================================================================
+--- fyba.orig/src/FYBA/Fyba_Callback.cpp
++++ fyba/src/FYBA/Fyba_Callback.cpp
+@@ -102,7 +102,8 @@ void LC_ErrorHandler (short feil_nr, con
+ 			  case 4:
+ 					printf("\aTrykk [Enter] for å avbryte programmet:");
+ 					if (getchar() == 0)  getchar();
+-					exit(2);
++					fprintf(stderr,"Error: The library used to stop the program execution here\n");
++					return;
+ 					break;
+ 		 }
+ 	}
+Index: fyba/src/FYBA/fyln.cpp
+===================================================================
+--- fyba.orig/src/FYBA/fyln.cpp
++++ fyba/src/FYBA/fyln.cpp
+@@ -448,7 +448,8 @@ short LN_PakkNavn (LC_NAVNETABELL * pLn,
+          UT_FPRINTF(stderr,"%s\n",LN_VisNavn(pLn,nr));
+       }
+       LC_Error(21,"(LN_PakkNavn)","");
+-      exit (2);
++      fprintf(stderr,"Error: The library used to stop the program execution here\n");
++      return 0;
+    }   
+ 
+    /* ----- Nytt navn */
