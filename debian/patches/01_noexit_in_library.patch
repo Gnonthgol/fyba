@@ -1,3 +1,7 @@
+Description: This fixes the shlib-calls-exit lintian. Every
+  exit()-call is replaced with an error message and return.
+Forwarded: will do
+Author: Ruben Undheim <ruben.undheim@gmail.com>
 Index: fyba/src/FYBA/FYLB.cpp
 ===================================================================
 --- fyba.orig/src/FYBA/FYLB.cpp
