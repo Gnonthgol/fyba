@@ -18,7 +18,9 @@ Description: FYBA library to read and write norwegian geodata standard format SO
  files in the National geodata standard format SOSI.
 
 Package: libfyba-dev
+Section: libdevel
 Architecture: any
 Depends: libfyba0 (= ${binary:Version}), ${misc:Depends}
 Description: Header files for FYBA library
- This is the development package for developing applications that depends on libfyba
+ This is the development package for developing applications that depends on
+ libfyba.
