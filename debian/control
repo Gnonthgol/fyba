@@ -19,6 +19,6 @@ Description: FYBA library to read and write norwegian geodata standard format SO
 
 Package: libfyba-dev
 Architecture: any
-Depends: libfyba1 (= ${binary:Version}), ${misc:Depends}
+Depends: libfyba0 (= ${binary:Version}), ${misc:Depends}
 Description: Header files for FYBA library
  This is the development package for developing applications that depends on libfyba
