@@ -1,0 +1,12 @@
+Document: libfyba-dev
+Title: libfyba API documentation
+Abstract: library for reading SOSI files 
+ This library lets you open and manipulate SOSI files. The
+ library was released by the Norwegian Mapping Authority.
+ .
+ This document describes the API of the library.
+Section: Programming/C
+
+Format: HTML
+Index: /usr/share/doc/libfyba-dev/en_EN/fyba.html
+Files: /usr/share/doc/libfyba-dev/en_EN/fyba*.html
