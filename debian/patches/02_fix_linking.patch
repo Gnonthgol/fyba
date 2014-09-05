@@ -1,0 +1,37 @@
+Description: This call makes libfyba link with libfyut and libfygm.
+Forwarded: will do
+Author: Ruben Undheim <ruben.undheim@gmail.com>
+Index: fyba/Makefile.am
+===================================================================
+--- fyba.orig/Makefile.am
++++ fyba/Makefile.am
+@@ -1,3 +1,3 @@
+ ACLOCAL_AMFLAGS = -I m4
+ AUTOMAKE_OPTIONS = foreign
+-SUBDIRS = src/GM src/UT src/FYBA doc
++SUBDIRS = src/UT src/GM src/FYBA doc
+Index: fyba/src/FYBA/Makefile.am
+===================================================================
+--- fyba.orig/src/FYBA/Makefile.am
++++ fyba/src/FYBA/Makefile.am
+@@ -4,6 +4,8 @@ ACLOCAL_AMFLAGS = -I m5
+ lib_LTLIBRARIES = libfyba.la
+ libfyba_la_SOURCES = fyba.h Fyba_Callback.cpp  FYBA_DLL.cpp      FYHO.cpp  FYLD.cpp  FYLH.cpp  fyln.cpp  FYLP.cpp  FYLS.cpp  FYLX.cpp  stdafx.cpp FYBA.cpp           Fyba_melding.cpp  FYLB.cpp  FYLE.cpp  FYLI.cpp  FYLO.cpp  FYLR.cpp  FYLU.cpp  FYTA.cpp fyba.h  fyba_strings.h  fybax.h  stdafx.h
+ libfyba_la_LDFLAGS = -version-info 0:0:0
++libfyba_la_LIBADD = $(top_builddir)/src/UT/libfyut.la \
++                    $(top_builddir)/src/GM/libfygm.la
+ 
+ library_includedir=$(includedir)/fyba
+ library_include_HEADERS = fyba.h     
+Index: fyba/src/GM/Makefile.am
+===================================================================
+--- fyba.orig/src/GM/Makefile.am
++++ fyba/src/GM/Makefile.am
+@@ -4,6 +4,7 @@ ACLOCAL_AMFLAGS = -I m5
+ lib_LTLIBRARIES = libfygm.la
+ libfygm_la_SOURCES = fygm.h GM.cpp stdafx.cpp stdafx.h
+ libfygm_la_LDFLAGS = -version-info 0:0:0
++libfygm_la_LIBADD = $(top_builddir)/src/UT/libfyut.la
+ 
+ library_includedir=$(includedir)/fyba
+ library_include_HEADERS = fygm.h 
