@@ -12,6 +12,7 @@ Homepage: https://github.com/kartverket/fyba
 Package: libfyba0
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Description: FYBA library to read and write norwegian geodata standard format SOSI
  OpenFYBA is the source code release of the FYBA library, distributed by the 
  National Mapping Authority of Norway (Statens kartverk) to read and write 
